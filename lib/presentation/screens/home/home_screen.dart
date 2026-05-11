@@ -14,6 +14,7 @@ import 'widgets/near_you_section.dart';
 import 'widgets/restaurant_row.dart';
 import 'widgets/season_banner.dart';
 import 'widgets/weather_insights_card.dart';
+import 'widgets/eat_drink_entry.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -148,6 +149,14 @@ class HomeScreen extends ConsumerWidget {
                 child: Padding(
                   padding: EdgeInsets.only(top: 16),
                   child: RestaurantRow(),
+                ),
+              ),
+
+              // SECTION 6.5 — Eat & Drink full list entry
+              const SliverToBoxAdapter(
+                child: Padding(
+                  padding: EdgeInsets.only(top: 4),
+                  child: EatDrinkEntry(),
                 ),
               ),
 

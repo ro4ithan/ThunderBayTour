@@ -126,7 +126,7 @@ class SliverHeroHeader extends StatelessWidget {
                       Text(
                         '(${attraction.reviewCount} reviews)',
                         style: AppTextStyles.bodyMedium.copyWith(
-                          color: Colors.white.withOpacity(0.8),
+                          color: Colors.white.withValues(alpha: 0.8),
                         ),
                       ),
                     ],
@@ -159,7 +159,7 @@ class _BlurIconButton extends StatelessWidget {
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
           child: Material(
-            color: Colors.black.withOpacity(0.35),
+            color: Colors.black.withValues(alpha: 0.35),
             child: IconButton(
               icon: Icon(icon, color: Colors.white),
               tooltip: semanticLabel,
@@ -181,7 +181,7 @@ class _CategoryPill extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
-        color: category.color.withOpacity(0.85),
+        color: category.color.withValues(alpha: 0.85),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(

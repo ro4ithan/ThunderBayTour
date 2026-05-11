@@ -55,7 +55,7 @@ class ActivitiesSection extends StatelessWidget {
                         color: AppColors.surface,
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
-                          color: AppColors.accent.withOpacity(0.4),
+                          color: AppColors.accent.withValues(alpha: 0.4),
                         ),
                       ),
                       child: Row(

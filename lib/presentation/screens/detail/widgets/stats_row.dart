@@ -34,7 +34,8 @@ class StatsRow extends StatelessWidget {
         suffix: '',
         label: 'Visit Time',
         formatter: (v) => '${(v / 60).toStringAsFixed(1)} hrs',
-        semantic: 'Suggested visit: ${(visitMinutes / 60).toStringAsFixed(1)} hours',
+        semantic:
+            'Suggested visit: ${(visitMinutes / 60).toStringAsFixed(1)} hours',
       ),
       _StatCard(
         icon: '📍',
@@ -94,7 +95,7 @@ class _StatCard extends StatelessWidget {
           color: AppColors.surface,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: AppColors.accent.withOpacity(0.3),
+            color: AppColors.accent.withValues(alpha: 0.3),
             width: 1,
           ),
         ),

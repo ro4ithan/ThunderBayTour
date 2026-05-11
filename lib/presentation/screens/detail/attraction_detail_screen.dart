@@ -13,6 +13,7 @@ import 'widgets/save_add_button.dart';
 import 'widgets/similar_attractions.dart';
 import 'widgets/sliver_hero_header.dart';
 import 'widgets/stats_row.dart';
+import '../../shared_widgets/get_directions_button.dart';
 
 class AttractionDetailScreen extends ConsumerWidget {
   final Attraction attraction;
@@ -63,7 +64,32 @@ class AttractionDetailScreen extends ConsumerWidget {
         ],
       ),
       bottomNavigationBar: SafeArea(
-        child: SaveAddButton(attractionId: attraction.id),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+          child: Row(
+            children: [
+              Expanded(
+                flex: 5,
+                child: SizedBox(
+                  height: 56,
+                  child: SaveAddButton(attractionId: attraction.id),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                flex: 4,
+                child: SizedBox(
+                  height: 56,
+                  child: GetDirectionsButton(
+                    latitude: attraction.latitude,
+                    longitude: attraction.longitude,
+                    label: attraction.name,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

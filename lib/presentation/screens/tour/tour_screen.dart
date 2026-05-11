@@ -1,90 +1,236 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:timeline_tile/timeline_tile.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_colors.dart';
-import '../../providers/tour_provider.dart';
-import 'widgets/tour_summary_header.dart';
-import 'widgets/tour_timeline_card.dart';
-import 'widgets/travel_bubble.dart';
-import 'widgets/tour_end_card.dart';
-import 'widgets/empty_tour_view.dart';
+import '../../../core/theme/app_text_styles.dart';
+import '../../../core/utils/maps_launcher.dart';
+import '../../providers/saved_provider.dart';
+import '../../providers/tour_planner_provider.dart';
+import 'widgets/empty_tour_state.dart';
+import 'widgets/missing_meals_banner.dart';
+import 'widgets/tour_header.dart';
+import 'widgets/tour_stop_card.dart';
 
 class TourScreen extends ConsumerWidget {
   const TourScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final tour = ref.watch(tourRouteProvider);
+    final plan = ref.watch(tourPlanProvider);
+    final startTime = ref.watch(tourStartTimeProvider);
 
-    if (tour.isEmpty) {
-      return const Scaffold(body: SafeArea(child: EmptyTourView()));
+    if (plan.isEmpty) {
+      return Scaffold(
+        backgroundColor: AppColors.background,
+        body: SafeArea(
+          child: EmptyTourState(onBrowse: () => context.go('/home')),
+        ),
+      );
     }
 
-    final stops = tour.stops;
     return Scaffold(
+      backgroundColor: AppColors.background,
       body: SafeArea(
         bottom: false,
-        child: Column(
+        child: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: TourHeader(
+                plan: plan,
+                startTime: startTime,
+                onPickTime: () => _pickStartTime(context, ref, startTime),
+                onOpenMaps: () => MapsLauncher.openMultiStop(
+                  context: context,
+                  stops: plan.stops
+                      .map((s) => (lat: s.latitude, lng: s.longitude))
+                      .toList(),
+                ),
+                onClear: () => _confirmClear(context, ref),
+              ),
+            ),
+
+            // Render each day as its own section
+            for (var i = 0; i < plan.days.length; i++) ...[
+              SliverToBoxAdapter(
+                child: _DaySectionHeader(
+                  day: plan.days[i],
+                  isFirst: i == 0,
+                ),
+              ),
+              if (plan.days[i].missingMeals.isNotEmpty)
+                SliverToBoxAdapter(
+                  child: MissingMealsBanner(
+                    suggestions: plan.days[i].missingMeals,
+                  ),
+                ),
+              SliverPadding(
+                padding: EdgeInsets.fromLTRB(
+                  16,
+                  4,
+                  16,
+                  i == plan.days.length - 1 ? 120 : 8,
+                ),
+                sliver: SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (context, indexInDay) {
+                      final stop = plan.days[i].stops[indexInDay];
+                      final globalIndex =
+                          _globalIndex(plan, dayIdx: i, localIdx: indexInDay);
+                      return TourStopCard(
+                        key: ValueKey('stop_${stop.id}_${stop.type.name}'),
+                        stop: stop,
+                        index: globalIndex,
+                        isLast: indexInDay == plan.days[i].stops.length - 1,
+                        onRemove: () => ref
+                            .read(savedProvider.notifier)
+                            .removeFromTour(stop.id, stop.type),
+                      )
+                          .animate()
+                          .fadeIn(delay: (indexInDay * 70).ms, duration: 300.ms)
+                          .slideX(begin: 0.1, end: 0);
+                    },
+                    childCount: plan.days[i].stops.length,
+                  ),
+                ),
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// Compute the global stop number across all days (1-based for badge).
+  int _globalIndex(TourPlan plan,
+      {required int dayIdx, required int localIdx}) {
+    var count = 0;
+    for (var i = 0; i < dayIdx; i++) {
+      count += plan.days[i].stops.length;
+    }
+    return count + localIdx;
+  }
+
+  Future<void> _pickStartTime(
+      BuildContext context, WidgetRef ref, DateTime current) async {
+    final picked = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.fromDateTime(current),
+    );
+    if (picked == null) return;
+    final now = DateTime.now();
+    ref.read(tourStartTimeProvider.notifier).state =
+        DateTime(now.year, now.month, now.day, picked.hour, picked.minute);
+  }
+
+  Future<void> _confirmClear(BuildContext context, WidgetRef ref) async {
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: AppColors.surface,
+        title: const Text('Clear Tour?'),
+        content: const Text(
+            'This removes all stops from your tour. Saved items remain saved.'),
+        actions: [
+          TextButton(
+              onPressed: () => Navigator.pop(ctx, false),
+              child: const Text('Cancel')),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            child: Text('Clear',
+                style:
+                    AppTextStyles.labelLarge.copyWith(color: AppColors.error)),
+          ),
+        ],
+      ),
+    );
+    if (ok == true) {
+      await ref.read(savedProvider.notifier).clearTour();
+    }
+  }
+}
+
+// ============================================================
+// DAY SECTION HEADER
+// ============================================================
+
+class _DaySectionHeader extends StatelessWidget {
+  const _DaySectionHeader({required this.day, required this.isFirst});
+  final TourDay day;
+  final bool isFirst;
+
+  @override
+  Widget build(BuildContext context) {
+    final hours = day.totalDuration.inHours;
+    final mins = day.totalDuration.inMinutes.remainder(60);
+    final durLabel = hours > 0 ? '${hours}h ${mins}m' : '${mins}m';
+
+    return Padding(
+      padding: EdgeInsets.fromLTRB(16, isFirst ? 8 : 20, 16, 12),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+            colors: [
+              AppColors.accent.withValues(alpha: 0.18),
+              AppColors.accent.withValues(alpha: 0.04),
+            ],
+          ),
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(
+            color: AppColors.accent.withValues(alpha: 0.35),
+            width: 1,
+          ),
+        ),
+        child: Row(
           children: [
-            TourSummaryHeader(tour: tour),
+            Container(
+              width: 38,
+              height: 38,
+              decoration: BoxDecoration(
+                color: AppColors.accent,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              alignment: Alignment.center,
+              child: Text(
+                '${day.dayNumber}',
+                style: AppTextStyles.headlineMedium.copyWith(
+                  color: AppColors.background,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+            ),
+            const SizedBox(width: 14),
             Expanded(
-              child: ListView.builder(
-                padding: const EdgeInsets.only(top: 16, bottom: 100),
-                itemCount: stops.length * 2 + 1, // stop + travel bubble + end
-                itemBuilder: (context, index) {
-                  if (index == stops.length * 2) {
-                    return TourEndCard(tour: tour)
-                        .animate()
-                        .fadeIn(delay: (300 + stops.length * 200).ms);
-                  }
-                  if (index.isOdd) {
-                    final stopIdx = index ~/ 2;
-                    if (stopIdx + 1 >= stops.length) return const SizedBox();
-                    final current = stops[stopIdx]; // ✅ use current stop
-                    return TravelBubble(
-                      minutes: current.travelTimeToNextMinutes,
-                      mode: current.travelModeToNext,
-                    ).animate().fadeIn(delay: (200 + stopIdx * 200 + 100).ms);
-                  }
-                  final stopIdx = index ~/ 2;
-                  final stop = stops[stopIdx];
-                  return TimelineTile(
-                    alignment: TimelineAlign.start,
-                    isFirst: stopIdx == 0,
-                    isLast: false,
-                    indicatorStyle: IndicatorStyle(
-                      width: 36,
-                      indicator: CircleAvatar(
-                        backgroundColor: AppColors.accent,
-                        child: Text(
-                          '${stop.orderIndex}',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                    beforeLineStyle: const LineStyle(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Day ${day.dayNumber}',
+                    style: AppTextStyles.headlineMedium.copyWith(
                       color: AppColors.accent,
-                      thickness: 2,
+                      fontWeight: FontWeight.w800,
                     ),
-                    endChild: Padding(
-                      padding: const EdgeInsets.only(left: 8, bottom: 12),
-                      child: TourTimelineCard(stop: stop),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    '${day.stops.length} stops  •  $durLabel  •  ${day.totalDistanceKm.toStringAsFixed(1)} km',
+                    style: AppTextStyles.bodyMedium.copyWith(
+                      color: AppColors.textSecondary,
                     ),
-                  )
-                      .animate()
-                      .fadeIn(delay: (200 + stopIdx * 200).ms)
-                      .slideX(begin: 0.2, end: 0);
-                },
+                  ),
+                ],
               ),
             ),
           ],
         ),
-      ),
+      )
+          .animate()
+          .fadeIn(duration: 350.ms)
+          .slideX(begin: -0.05, end: 0, curve: Curves.easeOutCubic),
     );
   }
 }

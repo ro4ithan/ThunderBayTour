@@ -10,8 +10,12 @@ class TourEndCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final h = tour.totalMinutes ~/ 60;
-    final m = tour.totalMinutes % 60;
+    final totalMinutes = tour.totalDuration.inMinutes;
+    final h = totalMinutes ~/ 60;
+    final m = totalMinutes % 60;
+    final stopCount = tour.totalStops;
+    final km = tour.totalDistanceKm.toStringAsFixed(1);
+
     return TimelineTile(
       alignment: TimelineAlign.start,
       isLast: true,
@@ -27,26 +31,32 @@ class TourEndCard extends StatelessWidget {
       endChild: Padding(
         padding: const EdgeInsets.only(left: 8, bottom: 12),
         child: Card(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
           color: AppColors.accent.withValues(alpha: 0.12),
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('End of Tour 🎉',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 18)),
-                const SizedBox(height: 6),
                 const Text(
-                    "You've explored the best of Thunder Bay!"),
+                  'End of Tour 🎉',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                const Text("You've explored the best of Thunder Bay!"),
                 const SizedBox(height: 8),
                 Text(
-                    '${tour.stops.length} stops · ${h}h ${m}m · ~${tour.totalTravelMinutes.toStringAsFixed(0)} km',
-                    style: const TextStyle(
-                        color: AppColors.accent,
-                        fontWeight: FontWeight.w600)),
+                  '$stopCount stops · ${h}h ${m}m · $km km',
+                  style: const TextStyle(
+                    color: AppColors.accent,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
               ],
             ),
           ),

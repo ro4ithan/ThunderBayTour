@@ -24,9 +24,10 @@ class SeasonBadge extends StatelessWidget {
         vertical: compact ? 4 : 6,
       ),
       decoration: BoxDecoration(
-        color: AppColors.primary.withOpacity(0.7),
+        color: AppColors.primary.withValues(alpha: 0.7),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppColors.accent.withOpacity(0.5), width: 0.6),
+        border: Border.all(
+            color: AppColors.accent.withValues(alpha: 0.5), width: 0.6),
       ),
       child: Text(
         prefix == null

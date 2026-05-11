@@ -1,20 +1,28 @@
+import 'tour_day.dart';
 import 'tour_stop.dart';
 
+/// A complete multi-day tour itinerary.
 class TourRoute {
-  final List<TourStop> stops;
-  final int totalMinutes;
-  final int totalTravelMinutes;
-  final String startTime;
-  final String endTime;
+  final List<TourDay> days;
 
-  const TourRoute({
-    required this.stops,
-    required this.totalMinutes,
-    required this.totalTravelMinutes,
-    required this.startTime,
-    required this.endTime,
-  });
+  const TourRoute({required this.days});
 
-  bool get isEmpty => stops.isEmpty;
-  int get stopCount => stops.length;
+  /// Flat list of all stops across all days (useful for backward compat).
+  List<TourStop> get allStops =>
+      days.expand((d) => d.stops).toList(growable: false);
+
+  int get totalStops => allStops.length;
+  int get dayCount => days.length;
+
+  Duration get totalDuration => days.fold(
+        Duration.zero,
+        (sum, d) => sum + d.totalDuration,
+      );
+
+  double get totalDistanceKm =>
+      days.fold(0.0, (sum, d) => sum + d.totalDistanceKm);
+
+  bool get isEmpty => days.isEmpty || allStops.isEmpty;
+
+  static const TourRoute empty = TourRoute(days: []);
 }

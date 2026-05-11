@@ -31,7 +31,7 @@ class AnimatedBottomNav extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final savedCount = ref.watch(savedProvider).length;
+    final tourCount = ref.watch(tourCountProvider);
 
     return SafeArea(
       top: false,
@@ -43,13 +43,13 @@ class AnimatedBottomNav extends ConsumerWidget {
           borderRadius: BorderRadius.circular(24),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.35),
+              color: Colors.black.withValues(alpha: 0.35),
               blurRadius: 20,
               offset: const Offset(0, 8),
             ),
           ],
           border: Border.all(
-            color: AppColors.divider.withOpacity(0.6),
+            color: AppColors.divider.withValues(alpha: 0.6),
             width: 0.6,
           ),
         ),
@@ -76,13 +76,13 @@ class AnimatedBottomNav extends ConsumerWidget {
                 Row(
                   children: List.generate(_items.length, (i) {
                     final isActive = i == currentIndex;
-                    final showBadge = i == 1 && savedCount > 0;
+                    final showBadge = i == 1 && tourCount > 0;
                     return Expanded(
                       child: _NavTab(
                         item: _items[i],
                         isActive: isActive,
                         showBadge: showBadge,
-                        badgeCount: savedCount,
+                        badgeCount: tourCount,
                         onTap: () => onTap(i),
                       ),
                     );
@@ -124,7 +124,7 @@ class _NavTab extends StatelessWidget {
   Widget build(BuildContext context) {
     final color = isActive
         ? AppColors.accent
-        : AppColors.textPrimary.withOpacity(0.4);
+        : AppColors.textPrimary.withValues(alpha: 0.4);
 
     return Material(
       color: Colors.transparent,

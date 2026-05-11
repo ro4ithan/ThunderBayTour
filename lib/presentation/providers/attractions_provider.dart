@@ -1,16 +1,14 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/enums/category.dart';
+import '../../core/utils/attraction_scorer.dart';
 import '../../data/repositories/attractions_repository.dart';
-import '../../data/repositories/restaurants_repository.dart';
 import '../../domain/models/attraction.dart';
-import '../../domain/models/restaurant.dart';
+import 'date_context_provider.dart';
+import 'weather_provider.dart';
 
 final attractionsRepositoryProvider =
     Provider<AttractionsRepository>((_) => const AttractionsRepository());
-
-final restaurantsRepositoryProvider =
-    Provider<RestaurantsRepository>((_) => const RestaurantsRepository());
 
 final allAttractionsProvider = Provider<List<Attraction>>(
   (ref) => ref.watch(attractionsRepositoryProvider).getAll(),
@@ -20,23 +18,21 @@ final featuredAttractionsProvider = Provider<List<Attraction>>(
   (ref) => ref.watch(attractionsRepositoryProvider).getFeatured(limit: 5),
 );
 
-final restaurantsProvider = Provider<List<Restaurant>>(
-  (ref) => ref.watch(restaurantsRepositoryProvider).getAll(),
-);
-
 /// Selected category filter (null = All).
 final categoryFilterProvider = StateProvider<AttractionCategory?>((_) => null);
 
 /// Selected season activity filter (null = none).
 final activityFilterProvider = StateProvider<String?>((_) => null);
 
-/// Filtered attractions list driving the grid.
+/// Filtered attractions list driving the grid — now weather/season scored & sorted.
 final filteredAttractionsProvider = Provider<List<Attraction>>((ref) {
   final all = ref.watch(allAttractionsProvider);
   final category = ref.watch(categoryFilterProvider);
   final activity = ref.watch(activityFilterProvider);
+  final dateCtx = ref.watch(dateContextProvider);
+  final weather = ref.watch(weatherProvider).asData?.value;
 
-  return all.where((a) {
+  final filtered = all.where((a) {
     if (category != null && a.category != category) return false;
     if (activity != null &&
         !a.activities.any(
@@ -45,8 +41,27 @@ final filteredAttractionsProvider = Provider<List<Attraction>>((ref) {
       return false;
     }
     return true;
-  }).toList(growable: false);
+  }).toList();
+
+  // Sort by today's fit score (descending)
+  filtered.sort((a, b) {
+    final sa =
+        AttractionScorer.score(a, weather, dateCtx.season).score;
+    final sb =
+        AttractionScorer.score(b, weather, dateCtx.season).score;
+    return sb.compareTo(sa);
+  });
+
+  return List.unmodifiable(filtered);
 });
 
-/// Alias kept for backwards compatibility with files expecting `attractionsProvider`.
+/// Score for a single attraction (used by cards for badges).
+final attractionScoreProvider =
+    Provider.family<AttractionScore, Attraction>((ref, attraction) {
+  final dateCtx = ref.watch(dateContextProvider);
+  final weather = ref.watch(weatherProvider).asData?.value;
+  return AttractionScorer.score(attraction, weather, dateCtx.season);
+});
+
+/// Alias kept for backwards compatibility.
 final attractionsProvider = allAttractionsProvider;

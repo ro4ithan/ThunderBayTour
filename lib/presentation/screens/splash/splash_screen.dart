@@ -56,7 +56,7 @@ class _SplashScreenState extends State<SplashScreen>
                     center: Alignment.center,
                     radius: 0.9,
                     colors: [
-                      AppColors.secondary.withOpacity(0.35),
+                      AppColors.secondary.withValues(alpha: 0.35),
                       AppColors.primary,
                     ],
                   ),
@@ -78,7 +78,7 @@ class _SplashScreenState extends State<SplashScreen>
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.accent.withOpacity(0.25),
+                          color: AppColors.accent.withValues(alpha: 0.25),
                           blurRadius: 30,
                           spreadRadius: 4,
                         ),
@@ -89,10 +89,7 @@ class _SplashScreenState extends State<SplashScreen>
                       size: 70,
                       color: AppColors.accent,
                     ),
-                  )
-                      .animate()
-                      .fadeIn(duration: 600.ms)
-                      .scale(
+                  ).animate().fadeIn(duration: 600.ms).scale(
                         begin: const Offset(0.8, 0.8),
                         end: const Offset(1.0, 1.0),
                         duration: 800.ms,
@@ -136,12 +133,9 @@ class _SplashScreenState extends State<SplashScreen>
                       letterSpacing: 8,
                       fontWeight: FontWeight.w600,
                     ),
-                  )
-                      .animate(delay: 1400.ms)
-                      .fadeIn(duration: 500.ms)
-                      .shimmer(
+                  ).animate(delay: 1400.ms).fadeIn(duration: 500.ms).shimmer(
                         duration: 1500.ms,
-                        color: AppColors.textPrimary.withOpacity(0.8),
+                        color: AppColors.textPrimary.withValues(alpha: 0.8),
                       ),
 
                   const SizedBox(height: 16),
@@ -174,7 +168,7 @@ class _SplashScreenState extends State<SplashScreen>
                           value: _loadingController.value,
                           minHeight: 3,
                           backgroundColor:
-                              AppColors.textPrimary.withOpacity(0.08),
+                              AppColors.textPrimary.withValues(alpha: 0.08),
                           valueColor: const AlwaysStoppedAnimation<Color>(
                             AppColors.accent,
                           ),

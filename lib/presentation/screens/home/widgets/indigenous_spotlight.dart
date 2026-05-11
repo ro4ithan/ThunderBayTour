@@ -20,7 +20,7 @@ class IndigenousSpotlight extends ConsumerWidget {
           color: const Color(0xFF1A1A2E),
           borderRadius: BorderRadius.circular(22),
           border: Border.all(
-            color: AppColors.accent.withOpacity(0.3),
+            color: AppColors.accent.withValues(alpha: 0.3),
             width: 1,
           ),
         ),
@@ -43,7 +43,7 @@ class IndigenousSpotlight extends ConsumerWidget {
             Text(
               'Discover the stories of the Anishinaabe people — the original stewards of this land.',
               style: AppTextStyles.bodyLarge.copyWith(
-                color: AppColors.textPrimary.withOpacity(0.85),
+                color: AppColors.textPrimary.withValues(alpha: 0.85),
               ),
             ),
             const SizedBox(height: 16),

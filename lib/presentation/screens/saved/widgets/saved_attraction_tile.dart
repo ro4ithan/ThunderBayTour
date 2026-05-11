@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/constants/app_constants.dart';
+import '../../../../core/enums/saved_item_type.dart';
 import '../../../../core/utils/distance_utils.dart';
 import '../../../../domain/models/attraction.dart';
 import '../../../providers/saved_provider.dart';
@@ -44,14 +45,17 @@ class SavedAttractionTile extends ConsumerWidget {
           child: const Icon(Icons.delete, color: Colors.white, size: 28),
         ),
         onDismissed: (_) {
-          ref.read(savedProvider.notifier).removeSaved(attraction.id);
+          ref
+              .read(savedProvider.notifier)
+              .toggleSave(attraction.id, SavedItemType.attraction);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: const Text('Removed from Saved & Tour'),
               action: SnackBarAction(
                 label: 'UNDO',
-                onPressed: () =>
-                    ref.read(savedProvider.notifier).addSaved(attraction.id),
+                onPressed: () => ref
+                    .read(savedProvider.notifier)
+                    .toggleSave(attraction.id, SavedItemType.attraction),
               ),
             ),
           );
@@ -92,8 +96,7 @@ class SavedAttractionTile extends ConsumerWidget {
                               child: Text(
                                 attraction.name,
                                 style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16),
+                                    fontWeight: FontWeight.bold, fontSize: 16),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                               ),
@@ -141,8 +144,8 @@ class SavedAttractionTile extends ConsumerWidget {
                             Text(' ${DistanceUtils.format(distKm)}',
                                 style: TextStyle(
                                     fontSize: 12,
-                                    color: Colors.white
-                                        .withValues(alpha: 0.55))),
+                                    color:
+                                        Colors.white.withValues(alpha: 0.55))),
                           ],
                         ),
                         const SizedBox(height: 6),

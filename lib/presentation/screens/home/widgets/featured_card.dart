@@ -11,6 +11,7 @@ import '../../../providers/saved_provider.dart';
 import '../../../shared_widgets/rating_stars.dart';
 import '../../../shared_widgets/season_badge.dart';
 import '../../../shared_widgets/shimmer_card.dart';
+import '../../../../core/enums/saved_item_type.dart';
 
 class FeaturedCard extends ConsumerWidget {
   final Attraction attraction;
@@ -19,10 +20,10 @@ class FeaturedCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final saved = ref.watch(savedProvider);
-    final isSaved = saved.any((s) => s.attractionId == attraction.id);
+    final isSaved = saved.any(
+        (s) => s.id == attraction.id && s.type == SavedItemType.attraction);
     final currentSeason = SeasonUtils.currentSeason();
-    final isSeasonPick =
-        attraction.bestSeasons.contains(currentSeason);
+    final isSeasonPick = attraction.bestSeasons.contains(currentSeason);
 
     return GestureDetector(
       onTap: () => context.push('/attraction/${attraction.id}'),
@@ -38,7 +39,7 @@ class FeaturedCard extends ConsumerWidget {
                 color: AppColors.surface,
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.4),
+                    color: Colors.black.withValues(alpha: 0.4),
                     blurRadius: 24,
                     offset: const Offset(0, 10),
                   ),
@@ -51,12 +52,20 @@ class FeaturedCard extends ConsumerWidget {
                     imageUrl: attraction.imageUrl,
                     fit: BoxFit.cover,
                     placeholder: (_, __) => const ShimmerCard(),
-                    errorWidget: (_, __, ___) => Container(
+                    errorWidget: (_, url, error) => Container(
                       color: AppColors.surface,
-                      child: const Icon(
-                        Icons.landscape_rounded,
-                        size: 60,
-                        color: AppColors.textSecondary,
+                      padding: const EdgeInsets.all(8),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(Icons.error, color: Colors.red, size: 30),
+                          const SizedBox(height: 4),
+                          Text(
+                            error.toString(),
+                            style: const TextStyle(color: Colors.white, fontSize: 10),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -131,7 +140,7 @@ class FeaturedCard extends ConsumerWidget {
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: AppTextStyles.bodyMedium.copyWith(
-                            color: Colors.white.withOpacity(0.85),
+                            color: Colors.white.withValues(alpha: 0.85),
                           ),
                         ),
                         const SizedBox(height: 10),
@@ -148,7 +157,7 @@ class FeaturedCard extends ConsumerWidget {
                             Text(
                               '(${attraction.reviewCount})',
                               style: AppTextStyles.labelSmall.copyWith(
-                                color: Colors.white.withOpacity(0.7),
+                                color: Colors.white.withValues(alpha: 0.7),
                               ),
                             ),
                             const Spacer(),
@@ -158,7 +167,7 @@ class FeaturedCard extends ConsumerWidget {
                                 vertical: 4,
                               ),
                               decoration: BoxDecoration(
-                                color: Colors.black.withOpacity(0.4),
+                                color: Colors.black.withValues(alpha: 0.4),
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: Text(
@@ -191,7 +200,7 @@ class _CategoryTag extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
-        color: category.color.withOpacity(0.9),
+        color: category.color.withValues(alpha: 0.9),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
@@ -249,7 +258,11 @@ class _SaveButtonState extends ConsumerState<_SaveButton>
   void _onTap() {
     _ctrl.forward(from: 0);
     final wasSaved = widget.isSaved;
-    ref.read(savedProvider.notifier).toggleSaved(widget.attractionId);
+    final notifier = ref.read(savedProvider.notifier);
+    notifier.toggleSave(widget.attractionId, SavedItemType.attraction);
+    if (!wasSaved) {
+      notifier.addToTour(widget.attractionId, SavedItemType.attraction);
+    }
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(
@@ -257,11 +270,9 @@ class _SaveButtonState extends ConsumerState<_SaveButton>
           duration: const Duration(seconds: 2),
           backgroundColor: AppColors.surface,
           content: Text(
-            wasSaved
-                ? 'Removed from Saved & Tour'
-                : 'Added to Saved & Tour ✓',
-            style: AppTextStyles.bodyMedium
-                .copyWith(color: AppColors.textPrimary),
+            wasSaved ? 'Removed from Saved & Tour' : 'Added to Saved & Tour ✓',
+            style:
+                AppTextStyles.bodyMedium.copyWith(color: AppColors.textPrimary),
           ),
         ),
       );
@@ -282,7 +293,7 @@ class _SaveButtonState extends ConsumerState<_SaveButton>
               width: 36,
               height: 36,
               decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.45),
+                color: Colors.black.withValues(alpha: 0.45),
                 shape: BoxShape.circle,
               ),
               child: Icon(

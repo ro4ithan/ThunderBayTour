@@ -44,7 +44,7 @@ class IndigenousLegendSection extends StatelessWidget {
             Text(
               legend.story,
               style: AppTextStyles.bodyMedium.copyWith(
-                color: AppColors.textPrimary.withOpacity(0.9),
+                color: AppColors.textPrimary.withValues(alpha: 0.9),
                 height: 1.6,
               ),
             ),
@@ -52,7 +52,7 @@ class IndigenousLegendSection extends StatelessWidget {
             Text(
               legend.culturalNote,
               style: AppTextStyles.bodyMedium.copyWith(
-                color: AppColors.accent.withOpacity(0.8),
+                color: AppColors.accent.withValues(alpha: 0.8),
                 fontStyle: FontStyle.italic,
                 height: 1.4,
               ),
@@ -60,6 +60,9 @@ class IndigenousLegendSection extends StatelessWidget {
           ],
         ),
       ),
-    ).animate(delay: 400.ms).fadeIn(duration: 500.ms).slideX(begin: 0.2, end: 0);
+    )
+        .animate(delay: 400.ms)
+        .fadeIn(duration: 500.ms)
+        .slideX(begin: 0.2, end: 0);
   }
 }

@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
-import 'core/theme/app_theme.dart';
-import 'presentation/screens/splash/splash_screen.dart';
-import 'presentation/screens/home/home_screen.dart';
-import 'presentation/screens/tour/tour_screen.dart';
-import 'presentation/screens/saved/saved_screen.dart';
-import 'presentation/screens/detail/attraction_detail_screen.dart';
-import 'presentation/shared_widgets/scaffold_with_nav.dart';
-import 'presentation/providers/attractions_provider.dart';
-import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'core/theme/app_theme.dart';
+import 'presentation/providers/attractions_provider.dart';
 import 'presentation/providers/saved_provider.dart';
+import 'presentation/screens/detail/attraction_detail_screen.dart';
+import 'presentation/screens/home/home_screen.dart';
+import 'presentation/screens/restaurant_detail/restaurant_detail_screen.dart';
+import 'presentation/screens/restaurants/restaurants_screen.dart';
+import 'presentation/screens/saved/saved_screen.dart';
+import 'presentation/screens/splash/splash_screen.dart';
+import 'presentation/screens/tour/tour_screen.dart';
+import 'presentation/shared_widgets/scaffold_with_nav.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorHomeKey = GlobalKey<NavigatorState>(debugLabel: 'home');
@@ -43,19 +44,21 @@ final goRouterProvider = Provider<GoRouter>((ref) {
     navigatorKey: _rootNavigatorKey,
     initialLocation: '/splash',
     routes: [
+      // ---------------- Splash ----------------
       GoRoute(
         path: '/splash',
         parentNavigatorKey: _rootNavigatorKey,
         builder: (context, state) => const SplashScreen(),
       ),
+
+      // ---------------- Attraction Detail (full-screen) ----------------
       GoRoute(
         path: '/attraction/:id',
         parentNavigatorKey: _rootNavigatorKey,
         builder: (context, state) {
           final id = state.pathParameters['id']!;
-          final attraction = ref
-              .read(attractionsRepositoryProvider)
-              .getById(id);
+          final attraction =
+              ref.read(attractionsRepositoryProvider).getById(id);
           if (attraction == null) {
             return const Scaffold(
               body: Center(child: Text('Attraction not found')),
@@ -64,10 +67,23 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           return AttractionDetailScreen(attraction: attraction);
         },
       ),
+
+      // ---------------- Restaurant Detail (full-screen) ----------------
+      GoRoute(
+        path: '/restaurant/:id',
+        name: 'restaurant-detail',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => RestaurantDetailScreen(
+          restaurantId: state.pathParameters['id']!,
+        ),
+      ),
+
+      // ---------------- Main Shell (bottom nav) ----------------
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) =>
             ScaffoldWithNav(navigationShell: navigationShell),
         branches: [
+          // -------- Home branch --------
           StatefulShellBranch(
             navigatorKey: _shellNavigatorHomeKey,
             routes: [
@@ -75,8 +91,14 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                 path: '/home',
                 builder: (context, state) => const HomeScreen(),
               ),
+              GoRoute(
+                path: '/restaurants',
+                name: 'restaurants',
+                builder: (context, state) => const RestaurantsScreen(),
+              ),
             ],
           ),
+          // -------- Tour branch --------
           StatefulShellBranch(
             navigatorKey: _shellNavigatorTourKey,
             routes: [
@@ -86,6 +108,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
               ),
             ],
           ),
+          // -------- Saved branch --------
           StatefulShellBranch(
             navigatorKey: _shellNavigatorSavedKey,
             routes: [

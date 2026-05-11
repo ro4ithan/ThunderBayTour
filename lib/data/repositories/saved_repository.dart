@@ -2,95 +2,42 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../core/constants/app_constants.dart';
+import '../../core/enums/saved_item_type.dart';
 import '../../domain/models/saved_item.dart';
 
 class SavedRepository {
-  const SavedRepository();
+  static const _key = 'saved_items_v2';
 
-  Future<List<SavedItem>> loadAll() async {
+  final SharedPreferences _prefs;
+  SavedRepository(this._prefs);
+
+  /// Load all saved items from disk.
+  List<SavedItem> getAll() {
+    final raw = _prefs.getString(_key);
+    if (raw == null || raw.isEmpty) return const [];
     try {
-      final prefs = await SharedPreferences.getInstance();
-      final raw = prefs.getStringList(AppConstants.savedItemsKey) ?? const [];
-      return raw
-          .map((s) {
-            try {
-              return SavedItem.fromJson(
-                jsonDecode(s) as Map<String, dynamic>,
-              );
-            } catch (_) {
-              return null;
-            }
-          })
-          .whereType<SavedItem>()
-          .toList(growable: false);
+      final decoded = jsonDecode(raw) as List<dynamic>;
+      return decoded
+          .map((e) => SavedItem.fromJson(e as Map<String, dynamic>))
+          .toList();
     } catch (_) {
       return const [];
     }
   }
 
-  Future<bool> saveAll(List<SavedItem> items) async {
-    try {
-      final prefs = await SharedPreferences.getInstance();
-      final raw =
-          items.map((i) => jsonEncode(i.toJson())).toList(growable: false);
-      return prefs.setStringList(AppConstants.savedItemsKey, raw);
-    } catch (_) {
-      return false;
-    }
+  /// Persist a list of saved items.
+  Future<void> saveAll(List<SavedItem> items) async {
+    final encoded = jsonEncode(items.map((e) => e.toJson()).toList());
+    await _prefs.setString(_key, encoded);
   }
 
-  Future<bool> add(String attractionId) async {
+  /// Convenience: find a single item by (id, type). Returns null if missing.
+  SavedItem? find(String id, SavedItemType type) {
+    final all = getAll();
     try {
-      final current = await loadAll();
-      if (current.any((i) => i.attractionId == attractionId)) return true;
-      final updated = [
-        ...current,
-        SavedItem(attractionId: attractionId, savedAt: DateTime.now()),
-      ];
-      return saveAll(updated);
+      return all.firstWhere((e) => e.id == id && e.type == type);
     } catch (_) {
-      return false;
-    }
-  }
-
-  Future<bool> remove(String attractionId) async {
-    try {
-      final current = await loadAll();
-      final updated = current
-          .where((i) => i.attractionId != attractionId)
-          .toList(growable: false);
-      return saveAll(updated);
-    } catch (_) {
-      return false;
-    }
-  }
-
-  Future<bool> clear() async {
-    try {
-      final prefs = await SharedPreferences.getInstance();
-      return prefs.remove(AppConstants.savedItemsKey);
-    } catch (_) {
-      return false;
-    }
-  }
-
-  Future<int> loadTourStartMinutes() async {
-    try {
-      final prefs = await SharedPreferences.getInstance();
-      return prefs.getInt(AppConstants.tourStartTimeKey) ??
-          AppConstants.defaultTourStartMinutes;
-    } catch (_) {
-      return AppConstants.defaultTourStartMinutes;
-    }
-  }
-
-  Future<bool> saveTourStartMinutes(int minutes) async {
-    try {
-      final prefs = await SharedPreferences.getInstance();
-      return prefs.setInt(AppConstants.tourStartTimeKey, minutes);
-    } catch (_) {
-      return false;
+      return null;
     }
   }
 }

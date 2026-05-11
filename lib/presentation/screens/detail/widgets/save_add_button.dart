@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../core/enums/saved_item_type.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../providers/saved_provider.dart';
@@ -21,6 +22,8 @@ class _SaveAddButtonState extends ConsumerState<SaveAddButton>
   late final AnimationController _burstCtrl;
   late final Animation<double> _scale;
 
+  static const _type = SavedItemType.attraction;
+
   @override
   void initState() {
     super.initState();
@@ -32,8 +35,7 @@ class _SaveAddButtonState extends ConsumerState<SaveAddButton>
       TweenSequenceItem(tween: Tween(begin: 1.0, end: 0.95), weight: 25),
       TweenSequenceItem(tween: Tween(begin: 0.95, end: 1.05), weight: 40),
       TweenSequenceItem(tween: Tween(begin: 1.05, end: 1.0), weight: 35),
-    ]).animate(CurvedAnimation(parent: _scaleCtrl, curve: Curves.easeOutBack));
-
+        ]).animate(CurvedAnimation(parent: _scaleCtrl, curve: Curves.easeOut));
     _burstCtrl = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 700),
@@ -53,18 +55,20 @@ class _SaveAddButtonState extends ConsumerState<SaveAddButton>
       builder: (ctx) => AlertDialog(
         backgroundColor: AppColors.surface,
         title: const Text('Remove from Tour?'),
-        content: const Text('This will remove it from your saved list.'),
+        content: const Text('This will remove it from your tour itinerary.'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
             child: const Text('Cancel'),
           ),
           TextButton(
-            onPressed: () {
+            onPressed: () async {
               Navigator.pop(ctx, true);
-              ref.read(savedProvider.notifier).toggleSaved(widget.attractionId);
+              await ref
+                  .read(savedProvider.notifier)
+                  .removeFromTour(widget.attractionId, _type);
             },
-            child: Text(
+            child: const Text(
               'Remove',
               style: TextStyle(color: AppColors.error),
             ),
@@ -74,33 +78,44 @@ class _SaveAddButtonState extends ConsumerState<SaveAddButton>
     );
   }
 
-  void _onTap(bool isSaved) {
+  Future<void> _onTap(bool inTour) async {
     _scaleCtrl.forward(from: 0);
-    if (isSaved) {
+    if (inTour) {
       _confirmRemove();
     } else {
       _burstCtrl.forward(from: 0);
-      ref.read(savedProvider.notifier).toggleSaved(widget.attractionId);
+      final notifier = ref.read(savedProvider.notifier);
+
+      // Ensure it's bookmarked too (so it shows in Saved tab).
+      final alreadySaved = ref.read(savedProvider).any(
+            (s) => s.id == widget.attractionId && s.type == _type,
+          );
+      if (!alreadySaved) {
+        await notifier.toggleSave(widget.attractionId, _type);
+      }
+      await notifier.addToTour(widget.attractionId, _type);
+
+      if (!mounted) return;
       ScaffoldMessenger.of(context)
         ..hideCurrentSnackBar()
         ..showSnackBar(
-          const SnackBar(content: Text('Added to Saved & Tour ✓')),
+          const SnackBar(content: Text('Added to your tour ✓')),
         );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final saved = ref.watch(savedProvider);
-    final isSaved = saved.any((s) => s.attractionId == widget.attractionId);
+    // ✅ Track inTour, not isSaved — this is the "Add to Tour" button.
+    final inTour = ref.watch(savedProvider.select(
+      (list) => list.any((s) =>
+          s.id == widget.attractionId && s.type == _type && s.inTour),
+    ));
 
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-      child: Stack(
+    return Stack(
         clipBehavior: Clip.none,
         alignment: Alignment.center,
         children: [
-          // Burst dots
           AnimatedBuilder(
             animation: _burstCtrl,
             builder: (_, __) {
@@ -135,29 +150,27 @@ class _SaveAddButtonState extends ConsumerState<SaveAddButton>
               );
             },
           ),
-          // Main button
           Semantics(
-            label: isSaved ? 'Remove from tour' : 'Save to tour',
+            label: inTour ? 'Remove from tour' : 'Add to tour',
             button: true,
             child: ScaleTransition(
               scale: _scale,
               child: SizedBox(
                 width: double.infinity,
-                height: 56,
                 child: ElevatedButton(
-                  onPressed: () => _onTap(isSaved),
+                  onPressed: () => _onTap(inTour),
                   style: ElevatedButton.styleFrom(
                     backgroundColor:
-                        isSaved ? AppColors.surface : AppColors.accent,
+                        inTour ? AppColors.surface : AppColors.accent,
                     foregroundColor:
-                        isSaved ? AppColors.accent : AppColors.primary,
+                        inTour ? AppColors.accent : AppColors.primary,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
-                      side: isSaved
+                      side: inTour
                           ? const BorderSide(color: AppColors.accent, width: 2)
                           : BorderSide.none,
                     ),
-                    elevation: isSaved ? 0 : 6,
+                    elevation: inTour ? 0 : 6,
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -165,20 +178,24 @@ class _SaveAddButtonState extends ConsumerState<SaveAddButton>
                       AnimatedSwitcher(
                         duration: const Duration(milliseconds: 250),
                         child: Icon(
-                          isSaved ? Icons.check_circle : Icons.bookmark_outline,
-                          key: ValueKey(isSaved),
+                          inTour ? Icons.check_circle : Icons.bookmark_outline,
+                          key: ValueKey(inTour),
                         ),
                       ),
                       const SizedBox(width: 10),
-                      Text(
-                        isSaved ? '✓ In Your Tour' : 'Save & Add to Tour',
-                        style: AppTextStyles.titleMedium.copyWith(
-                          color:
-                              isSaved ? AppColors.accent : AppColors.primary,
-                          fontWeight: FontWeight.w800,
+                      Flexible(
+                        child: Text(
+                          inTour ? 'In Tour ✓' : 'Add to Tour',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppTextStyles.titleMedium.copyWith(
+                            color:
+                                inTour ? AppColors.accent : AppColors.primary,
+                            fontWeight: FontWeight.w800,
+                          ),
                         ),
                       ),
-                      if (!isSaved) ...[
+                      if (!inTour) ...[
                         const SizedBox(width: 8),
                         const Icon(Icons.route, size: 20),
                       ],
@@ -189,7 +206,6 @@ class _SaveAddButtonState extends ConsumerState<SaveAddButton>
             ),
           ),
         ],
-      ),
-    );
+      );
   }
 }
