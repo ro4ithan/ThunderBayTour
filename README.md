@@ -193,12 +193,12 @@
 ### Saved Places & Filtering
 
 <p align="center">
-  <img src="screenshots/19_saved_places_desktop.png" alt="Saved Places" width="340"/>
+  <img src="screenshots/19_saved_places_desktop.png" alt="Saved Attractions" width="340"/>
   &nbsp;&nbsp;
-  <img src="screenshots/20_indigenous_filter_selected.png" alt="Indigenous Category Filter" width="340"/>
+  <img src="screenshots/20_restaurants_filter_selected.png" alt="Saved Restaurants" width="340"/>
 </p>
 <p align="center">
-  <sub><b>Left:</b> Saved places with sort options & tour badges &nbsp;|&nbsp; <b>Right:</b> Indigenous category filter active</sub>
+  <sub><b>Left:</b> Saved attractions with sort options & tour badges &nbsp;|&nbsp; <b>Right:</b> Saved restaurants with sort options & tour badges</sub>
 </p>
 
 ---
