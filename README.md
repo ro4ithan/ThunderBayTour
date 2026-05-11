@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="screenshots/01_splash_screen.png" alt="Thunder Bay Tours" width="200"/>
+  <img src="screenshots/01_splash_screen.png" alt="Thunder Bay Tours" width="180"/>
 </p>
 
 <h1 align="center">🏔️ Thunder Bay Tours</h1>
@@ -11,16 +11,16 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Flutter-%E2%89%A5%203.22.0-02569B?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter"/>
   <img src="https://img.shields.io/badge/Dart-%E2%89%A5%203.4.0-0175C2?style=for-the-badge&logo=dart&logoColor=white" alt="Dart"/>
-  <img src="https://img.shields.io/badge/Platform-Android%20%7C%20iOS%20%7C%20Web%20%7C%20Desktop-green?style=for-the-badge" alt="Platform"/>
-  <img src="https://img.shields.io/badge/Architecture-Clean%20Architecture-blueviolet?style=for-the-badge" alt="Architecture"/>
-  <img src="https://img.shields.io/badge/State%20Mgmt-Riverpod-orange?style=for-the-badge" alt="Riverpod"/>
+  <img src="https://img.shields.io/badge/Platform-iOS%20%7C%20Android%20%7C%20Web%20%7C%20Desktop-2EA043?style=for-the-badge" alt="Platform"/>
+  <img src="https://img.shields.io/badge/Architecture-Clean-8957E5?style=for-the-badge" alt="Architecture"/>
+  <img src="https://img.shields.io/badge/State-Riverpod-F4A261?style=for-the-badge" alt="Riverpod"/>
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Attractions-25-brightgreen?style=flat-square" alt="Attractions"/>
-  <img src="https://img.shields.io/badge/Restaurants-55-blue?style=flat-square" alt="Restaurants"/>
-  <img src="https://img.shields.io/badge/Dart%20Files-87-informational?style=flat-square" alt="Files"/>
-  <img src="https://img.shields.io/badge/Lines%20of%20Code-12%2C103-yellow?style=flat-square" alt="LOC"/>
+  <img src="https://img.shields.io/badge/Attractions-25-1B4332?style=flat-square" alt="Attractions"/>
+  <img src="https://img.shields.io/badge/Restaurants-55-0D1B2A?style=flat-square" alt="Restaurants"/>
+  <img src="https://img.shields.io/badge/Dart%20Files-87-555555?style=flat-square" alt="Files"/>
+  <img src="https://img.shields.io/badge/Lines%20of%20Code-12,103-F4A261?style=flat-square" alt="LOC"/>
 </p>
 
 ---
@@ -45,17 +45,17 @@
 
 ## 🌍 Overview
 
-**Thunder Bay Tours** is a cross-platform mobile tourism guide application built with **Flutter/Dart** for [Thunder Bay, Ontario, Canada](https://en.wikipedia.org/wiki/Thunder_Bay). It serves as a comprehensive travel companion that helps visitors and locals discover attractions, plan multi-day tours, find local restaurants, and explore **Indigenous cultural stories** — all powered by intelligent algorithms and real-time weather data.
+**Thunder Bay Tours** is a cross-platform mobile tourism guide built with **Flutter/Dart** for [Thunder Bay, Ontario, Canada](https://en.wikipedia.org/wiki/Thunder_Bay). It serves as a comprehensive travel companion that helps visitors and locals discover attractions, plan multi-day tours, find local restaurants, and explore **Indigenous cultural stories** — all powered by intelligent algorithms and real-time weather data.
 
 ### 🎯 Core Value Propositions
 
 | Feature | Description |
 |---------|-------------|
 | 🧠 **Intelligent Tour Planning** | Auto-orders saved attractions using a Greedy Nearest Neighbor algorithm with Haversine distance |
-| 🪶 **Indigenous Cultural Storytelling** | Features Anishinaabe legends (Nanabijou, Princess Green Mantle, Animiki) with respectful cultural context |
-| 🌦️ **Weather-Aware Recommendations** | Real-time weather from Open-Meteo API scores attractions for current conditions |
+| 🪶 **Indigenous Cultural Storytelling** | Anishinaabe legends (Nanabijou, Princess Green Mantle, Animiki) shared with cultural context |
+| 🌦️ **Weather-Aware Recommendations** | Real-time Open-Meteo data scores attractions for current conditions |
 | 🍂 **Season-Aware Content** | Dynamically adjusts UI, recommendations, and badges based on the current season |
-| 🍽️ **Full Restaurant Guide** | 55 curated Thunder Bay restaurants with signature dishes, weekly hours, and meal-slot tour integration |
+| 🍽️ **Full Restaurant Guide** | 55 curated restaurants with signature dishes, weekly hours, and meal-slot tour integration |
 
 > Built as an academic group project at **Lakehead University**, Thunder Bay Tours demonstrates production-quality architecture, polished animations, and a sophisticated feature set.
 
@@ -65,29 +65,29 @@
 
 ### 🏠 Discovery Hub (Home Screen)
 - **Season Banner** — Dynamic banner showing current season with activity recommendations
-- **Weather Insights Card** — Real-time weather with outdoor/hiking/water suitability indicators
+- **Weather Insights Card** — Real-time weather with outdoor / hiking / water suitability indicators
 - **Category Filters** — Filter by Nature, History, Culture, Waterfront, Indigenous
 - **Featured Carousel** — Top-rated attractions with hero images and ratings
-- **Near You Section** — Nearest attractions sorted by Haversine distance
-- **Weather-Scored Grid** — Attraction cards with fit badges (*"Perfect today"*, *"Better indoors"*, *"Off-season"*)
+- **Near You** — Closest attractions sorted by Haversine distance
+- **Weather-Scored Grid** — Attraction cards with fit badges (*Perfect today*, *Better indoors*, *Off-season*)
 - **Restaurant Row** — Curated dining highlights with horizontal scroll
 - **Indigenous Spotlight** — Dedicated section highlighting Indigenous cultural sites
 - **Pull-to-Refresh** — Live weather data refresh
 
 ### 📍 Smart Tour Planner
-- **Multi-Day Itinerary** — Automatically splits stops across days based on a 10-hour daily budget
-- **Greedy Nearest Neighbor Algorithm** — Optimally orders attractions starting from downtown Thunder Bay
-- **Meal-Slot Integration** — Classifies restaurants as breakfast/lunch/dinner and inserts at correct timeline positions
-- **Travel Time Estimation** — Haversine distance with road factor adjustments
-- **Missing Meals Banner** — Smart alerts when tour overlaps meal windows without a restaurant stop
+- **Multi-Day Itinerary** — Auto-splits stops across days using a 10-hour daily budget
+- **Greedy Nearest Neighbor** — Optimal ordering starting from downtown Thunder Bay
+- **Meal-Slot Integration** — Classifies restaurants as breakfast / lunch / dinner and inserts at correct positions
+- **Travel Time Estimation** — Haversine distance with road-factor adjustment
+- **Missing Meals Banner** — Smart alerts when meal windows overlap without a restaurant stop
 - **Custom Start Time** — User-adjustable tour start time
 - **Multi-Stop Google Maps** — "Open in Maps" for the entire route with waypoints
 
 ### 🪶 Indigenous Storytelling
 - **Nanabijou (Sleeping Giant)** — The Ojibwe legend of a giant spirit turned to stone
 - **Princess Green Mantle (Kakabeka Falls)** — Story of an Ojibwe chief's daughter who saved her people
-- **Animiki (Mount McKay)** — Thunder Bird spiritual stories
-- Cultural notes and respectful storytelling connected to Fort William First Nation heritage
+- **Animiki (Mount McKay)** — Thunderbird spiritual stories
+- Cultural notes connected to Fort William First Nation heritage
 
 ### 🍽️ Restaurant Discovery
 - **55 curated restaurants** across 11 categories: Fine Dining, Casual, International, Brewery, Cocktail Bar, Bakery, Café, Market, Indigenous, Specialty, Vegetarian
@@ -97,109 +97,137 @@
 
 ### 💾 Persistent Save System
 - SharedPreferences-backed JSON persistence
-- **Cross-Screen Sync** — Riverpod reactive state across Home ↔ Tour ↔ Saved ↔ Detail screens
+- **Cross-Screen Sync** — Riverpod reactive state across Home ↔ Tour ↔ Saved ↔ Detail
 - **Sort Options** — Recently added, rating, distance
 - **Smart Tour Optimizer** — Auto-reorders on add/remove
 
 ### 🌦️ Weather Integration
 - **Open-Meteo API** — Free, no-API-key weather data for Thunder Bay
 - **WMO Weather Codes** — Mapped to human labels and emoji
-- **Activity Suitability Scoring** — Outdoor, hiking, and water activity fitness
+- **Activity Suitability Scoring** — Outdoor, hiking, and water fitness
 - **Attraction Scoring** — Weather + season + category = dynamic fitness score
 
 ### ✨ Design & Animations
-- **Dark Theme** — Lake Superior-inspired palette (Deep Blue `#0D1B2A`, Forest Green `#1B4332`, Amber Gold `#F4A261`)
-- **Category Color Coding** — Nature 🟢, History 🟤, Culture 🟣, Waterfront 🔵, Indigenous 🟠
+- **Dark Theme** — Lake Superior-inspired palette: Deep Blue `#0D1B2A`, Forest Green `#1B4332`, Amber Gold `#F4A261`
+- **Category Color Coding** — Nature 🟢 · History 🟤 · Culture 🟣 · Waterfront 🔵 · Indigenous 🟠
 - **Flutter Animate** — Staggered reveals, fades, slides, scale animations
 - **Particle Burst** — Custom particle animation on save actions
-- **Shimmer Loading** — Skeleton loading cards for smooth UX
+- **Shimmer Loading** — Skeleton cards for smooth UX
 - **Spring Micro-Interactions** — Tactile button feedback
 
 ---
 
 ## 📸 Screenshots
 
-### Splash & Home Screen
+> Captured on iPhone and macOS desktop builds. Click any image to view full size.
+
+### Mobile Experience
+
+<table align="center">
+  <tr>
+    <td align="center" width="33%">
+      <img src="screenshots/01_splash_screen.png" alt="Splash" width="220"/><br/>
+      <sub><b>Splash</b><br/>Animated brand reveal</sub>
+    </td>
+    <td align="center" width="33%">
+      <img src="screenshots/02_home_discovery_hub_mobile.png" alt="Home" width="220"/><br/>
+      <sub><b>Discovery Hub</b><br/>Weather · Seasons · Filters</sub>
+    </td>
+    <td align="center" width="33%">
+      <img src="screenshots/07_attraction_detail_kakabeka.png" alt="Kakabeka Falls" width="220"/><br/>
+      <sub><b>Kakabeka Falls</b><br/>SliverAppBar hero detail</sub>
+    </td>
+  </tr>
+</table>
+
+### Indigenous Storytelling
+
+<table align="center">
+  <tr>
+    <td align="center" width="33%">
+      <img src="screenshots/08_indigenous_legend_kakabeka.png" alt="Princess Green Mantle" width="220"/><br/>
+      <sub><b>Princess Green Mantle</b><br/>Kakabeka Falls legend</sub>
+    </td>
+    <td align="center" width="33%">
+      <img src="screenshots/11_indigenous_legend_sleeping_giant.png" alt="Nanabijou" width="220"/><br/>
+      <sub><b>Nanabijou</b><br/>Sleeping Giant legend</sub>
+    </td>
+    <td align="center" width="33%">
+      <img src="screenshots/10_attraction_sleeping_giant.png" alt="Sleeping Giant" width="220"/><br/>
+      <sub><b>Sleeping Giant</b><br/>Provincial Park detail</sub>
+    </td>
+  </tr>
+</table>
+
+### Attractions & Practical Info
+
+<table align="center">
+  <tr>
+    <td align="center" width="50%">
+      <img src="screenshots/12_attraction_terry_fox.png" alt="Terry Fox Monument" width="220"/><br/>
+      <sub><b>Terry Fox Monument</b></sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="screenshots/09_attraction_practical_info.png" alt="Practical Info" width="220"/><br/>
+      <sub><b>Practical Info</b><br/>Hours · Parking · Accessibility</sub>
+    </td>
+  </tr>
+</table>
+
+### Smart Tour Planner
 
 <p align="center">
-  <img src="screenshots/01_splash_screen.png" alt="Splash Screen" width="220"/>
-  &nbsp;&nbsp;
-  <img src="screenshots/02_home_discovery_hub_mobile.png" alt="Home — Discovery Hub" width="220"/>
+  <img src="screenshots/17_tour_planner_desktop.png" alt="Tour Planner" width="780"/>
 </p>
 <p align="center">
-  <sub><b>Left:</b> Animated splash with branded logo &nbsp;|&nbsp; <b>Right:</b> Discovery Hub with weather, seasons & category filters</sub>
+  <sub>Multi-day itinerary — <b>Greedy Nearest Neighbor</b> optimized route with travel times and meal-slot suggestions</sub>
 </p>
 
 ### Weather & Season Integration
 
 <p align="center">
-  <img src="screenshots/02_home_weather_season_desktop.png" alt="Weather & Season Integration" width="700"/>
+  <img src="screenshots/02_home_weather_season_desktop.png" alt="Weather & Season" width="780"/>
 </p>
 <p align="center">
-  <sub>Desktop view — Real-time weather insights, season-aware banner, activity recommendations</sub>
-</p>
-
-### Attraction Details & Indigenous Storytelling
-
-<p align="center">
-  <img src="screenshots/07_attraction_detail_kakabeka.png" alt="Kakabeka Falls Detail" width="220"/>
-  &nbsp;&nbsp;
-  <img src="screenshots/08_indigenous_legend_kakabeka.png" alt="Indigenous Legend — Princess Green Mantle" width="220"/>
-  &nbsp;&nbsp;
-  <img src="screenshots/10_attraction_sleeping_giant.png" alt="Sleeping Giant Provincial Park" width="220"/>
-</p>
-<p align="center">
-  <sub><b>Left:</b> Kakabeka Falls with SliverAppBar hero &nbsp;|&nbsp; <b>Center:</b> Indigenous Legend of Princess Green Mantle &nbsp;|&nbsp; <b>Right:</b> Sleeping Giant Provincial Park</sub>
-</p>
-
-<p align="center">
-  <img src="screenshots/11_indigenous_legend_sleeping_giant.png" alt="Nanabijou Legend" width="220"/>
-  &nbsp;&nbsp;
-  <img src="screenshots/12_attraction_terry_fox.png" alt="Terry Fox Monument" width="220"/>
-  &nbsp;&nbsp;
-  <img src="screenshots/09_attraction_practical_info.png" alt="Practical Info" width="220"/>
-</p>
-<p align="center">
-  <sub><b>Left:</b> Legend of Nanabijou &nbsp;|&nbsp; <b>Center:</b> Terry Fox Monument &nbsp;|&nbsp; <b>Right:</b> Practical information section</sub>
-</p>
-
-### Smart Tour Planner
-
-<p align="center">
-  <img src="screenshots/17_tour_planner_desktop.png" alt="Tour Planner — Full Itinerary" width="700"/>
-</p>
-<p align="center">
-  <sub>Multi-day tour itinerary — Greedy Nearest Neighbor optimized route with travel times & meal suggestions</sub>
+  <sub>Real-time weather insights · Season-aware banner · Live activity recommendations</sub>
 </p>
 
 ### Restaurant Discovery
 
 <p align="center">
-  <img src="screenshots/13_restaurants_list_desktop.png" alt="Restaurants List" width="700"/>
+  <img src="screenshots/13_restaurants_list_desktop.png" alt="Restaurants List" width="780"/>
 </p>
 <p align="center">
-  <sub>55 curated restaurants with 11 category filters, ratings, and price indicators</sub>
+  <sub>55 curated restaurants · 11 category filters · Ratings · Price indicators</sub>
 </p>
 
-<p align="center">
-  <img src="screenshots/15_restaurant_detail_desktop.png" alt="Restaurant Detail" width="340"/>
-  &nbsp;&nbsp;
-  <img src="screenshots/16_restaurant_signature_dishes_desktop.png" alt="Signature Dishes" width="340"/>
-</p>
-<p align="center">
-  <sub><b>Left:</b> Restaurant detail with hours & description &nbsp;|&nbsp; <b>Right:</b> Signature dishes with pricing</sub>
-</p>
+<table align="center">
+  <tr>
+    <td align="center" width="50%">
+      <img src="screenshots/15_restaurant_detail_desktop.png" alt="Restaurant Detail" width="380"/><br/>
+      <sub><b>Restaurant Detail</b><br/>Hours · Description · Actions</sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="screenshots/16_restaurant_signature_dishes_desktop.png" alt="Signature Dishes" width="380"/><br/>
+      <sub><b>Signature Dishes</b><br/>Curated picks with pricing</sub>
+    </td>
+  </tr>
+</table>
 
-### Saved Places & Filtering
+### Saved Places & Sorting
 
-<p align="center">
-  <img src="screenshots/19_saved_places_desktop.png" alt="Saved Attractions" width="340"/>
-  &nbsp;&nbsp;
-  <img src="screenshots/20_restaurants_filter_selected.png" alt="Saved Restaurants" width="340"/>
-</p>
-<p align="center">
-  <sub><b>Left:</b> Saved attractions with sort options & tour badges &nbsp;|&nbsp; <b>Right:</b> Saved restaurants with sort options & tour badges</sub>
-</p>
+<table align="center">
+  <tr>
+    <td align="center" width="50%">
+      <img src="screenshots/19_saved_places_desktop.png" alt="Saved Attractions" width="380"/><br/>
+      <sub><b>Saved Attractions</b><br/>Sort options · Tour badges</sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="screenshots/20_restaurants_filter_selected.png" alt="Saved Restaurants" width="380"/><br/>
+      <sub><b>Saved Restaurants</b><br/>Sort options · Tour badges</sub>
+    </td>
+  </tr>
+</table>
 
 ---
 
@@ -211,7 +239,7 @@
 |-----------|-----------|---------|
 | Framework | Flutter | ≥ 3.22.0 |
 | Language | Dart | ≥ 3.4.0, < 4.0.0 |
-| Platforms | Android, iOS, Web, Linux, macOS, Windows | Multi-platform |
+| Platforms | iOS · Android · Web · Linux · macOS · Windows | Multi-platform |
 
 ### Key Dependencies
 
@@ -299,66 +327,66 @@ ThunderBayTour/
 │   ├── app.dart                               # GoRouter config, MaterialApp, theme setup
 │   ├── core/
 │   │   ├── animations/
-│   │   │   └── animation_presets.dart          # Reusable animation configs
+│   │   │   └── animation_presets.dart         # Reusable animation configs
 │   │   ├── constants/
-│   │   │   └── app_constants.dart              # Downtown coords, prefs keys, app name
+│   │   │   └── app_constants.dart             # Downtown coords, prefs keys, app name
 │   │   ├── enums/
-│   │   │   ├── category.dart                   # Nature / History / Culture / Waterfront / Indigenous
-│   │   │   ├── difficulty.dart                 # Easy / Moderate / Challenging
-│   │   │   ├── meal_slot.dart                  # Breakfast / Lunch / Snack / Dinner
-│   │   │   ├── saved_item_type.dart            # Attraction / Restaurant
-│   │   │   └── season.dart                     # Spring / Summer / Fall / Winter
+│   │   │   ├── category.dart                  # Nature / History / Culture / Waterfront / Indigenous
+│   │   │   ├── difficulty.dart                # Easy / Moderate / Challenging
+│   │   │   ├── meal_slot.dart                 # Breakfast / Lunch / Snack / Dinner
+│   │   │   ├── saved_item_type.dart           # Attraction / Restaurant
+│   │   │   └── season.dart                    # Spring / Summer / Fall / Winter
 │   │   ├── theme/
-│   │   │   ├── app_colors.dart                 # Lake Superior-inspired color palette
-│   │   │   ├── app_text_styles.dart            # Typography system
-│   │   │   └── app_theme.dart                  # Light + Dark ThemeData
+│   │   │   ├── app_colors.dart                # Lake Superior-inspired color palette
+│   │   │   ├── app_text_styles.dart           # Typography system
+│   │   │   └── app_theme.dart                 # Light + Dark ThemeData
 │   │   └── utils/
-│   │       ├── activity_icon_utils.dart        # Activity → icon mapping
-│   │       ├── attraction_scorer.dart          # Weather+season scoring algorithm
-│   │       ├── distance_utils.dart             # Haversine distance calculator
-│   │       ├── maps_launcher.dart              # Google Maps/phone/multi-stop launcher
-│   │       └── season_utils.dart               # Current season detection
+│   │       ├── activity_icon_utils.dart       # Activity → icon mapping
+│   │       ├── attraction_scorer.dart         # Weather+season scoring algorithm
+│   │       ├── distance_utils.dart            # Haversine distance calculator
+│   │       ├── maps_launcher.dart             # Google Maps/phone/multi-stop launcher
+│   │       └── season_utils.dart              # Current season detection
 │   ├── data/
 │   │   ├── datasources/
-│   │   │   ├── thunder_bay_data.dart           # 25 hardcoded attractions (full metadata)
-│   │   │   ├── restaurants_data_part1.dart     # Restaurant data (batch 1)
-│   │   │   └── restaurants_data_part2.dart     # Restaurant data (batch 2)
+│   │   │   ├── thunder_bay_data.dart          # 25 hardcoded attractions (full metadata)
+│   │   │   ├── restaurants_data_part1.dart    # Restaurant data (batch 1)
+│   │   │   └── restaurants_data_part2.dart    # Restaurant data (batch 2)
 │   │   ├── repositories/
-│   │   │   ├── attractions_repository.dart     # CRUD + query for attractions
-│   │   │   ├── restaurants_repository.dart     # CRUD + query for restaurants
-│   │   │   └── saved_repository.dart           # SharedPreferences persistence
+│   │   │   ├── attractions_repository.dart    # CRUD + query for attractions
+│   │   │   ├── restaurants_repository.dart    # CRUD + query for restaurants
+│   │   │   └── saved_repository.dart          # SharedPreferences persistence
 │   │   └── services/
-│   │       └── weather_service.dart            # Open-Meteo API client
+│   │       └── weather_service.dart           # Open-Meteo API client
 │   ├── domain/
 │   │   └── models/
-│   │       ├── attraction.dart                 # Attraction (25+ fields, Indigenous legends)
-│   │       ├── restaurant.dart                 # Restaurant (dishes, hours, coordinates)
-│   │       ├── saved_item.dart                 # SavedItem (JSON serializable)
-│   │       ├── tour_day.dart                   # TourDay (per-day stops, meal coverage)
-│   │       ├── tour_route.dart                 # TourRoute (multi-day aggregation)
-│   │       └── tour_stop.dart                  # TourStop (arrival, travel, meal slot)
+│   │       ├── attraction.dart                # Attraction (25+ fields, Indigenous legends)
+│   │       ├── restaurant.dart                # Restaurant (dishes, hours, coordinates)
+│   │       ├── saved_item.dart                # SavedItem (JSON serializable)
+│   │       ├── tour_day.dart                  # TourDay (per-day stops, meal coverage)
+│   │       ├── tour_route.dart                # TourRoute (multi-day aggregation)
+│   │       └── tour_stop.dart                 # TourStop (arrival, travel, meal slot)
 │   └── presentation/
-│       ├── providers/                          # Riverpod state management
-│       │   ├── attractions_provider.dart       # Filtered/scored attractions
-│       │   ├── date_context_provider.dart      # Season/time-of-day context
-│       │   ├── restaurants_provider.dart       # Restaurant list + filters
-│       │   ├── saved_provider.dart             # Save/unsave, tour management
-│       │   ├── sort_provider.dart              # Sort options
-│       │   ├── tour_planner_provider.dart      # Multi-day tour builder
-│       │   └── weather_provider.dart           # Weather data fetching
+│       ├── providers/                         # Riverpod state management
+│       │   ├── attractions_provider.dart      # Filtered/scored attractions
+│       │   ├── date_context_provider.dart     # Season/time-of-day context
+│       │   ├── restaurants_provider.dart      # Restaurant list + filters
+│       │   ├── saved_provider.dart            # Save/unsave, tour management
+│       │   ├── sort_provider.dart             # Sort options
+│       │   ├── tour_planner_provider.dart     # Multi-day tour builder
+│       │   └── weather_provider.dart          # Weather data fetching
 │       ├── screens/
-│       │   ├── splash/                         # Animated splash screen
-│       │   ├── home/                           # Discovery Hub + 9 widgets
-│       │   ├── detail/                         # Attraction detail + 9 widgets
-│       │   ├── restaurant_detail/              # Restaurant detail + 4 widgets
-│       │   ├── restaurants/                    # Restaurant list + 2 widgets
-│       │   ├── tour/                           # Tour planner + 8 widgets
-│       │   └── saved/                          # Saved places + 4 widgets
-│       └── shared_widgets/                     # Reusable UI components (7 widgets)
-├── screenshots/                                # App screenshots for documentation
-├── android/ ios/ web/ linux/ macos/ windows/   # Platform-specific files
-├── pubspec.yaml                                # Dependencies & configuration
-└── README.md                                   # This file
+│       │   ├── splash/                        # Animated splash screen
+│       │   ├── home/                          # Discovery Hub + 9 widgets
+│       │   ├── detail/                        # Attraction detail + 9 widgets
+│       │   ├── restaurant_detail/             # Restaurant detail + 4 widgets
+│       │   ├── restaurants/                   # Restaurant list + 2 widgets
+│       │   ├── tour/                          # Tour planner + 8 widgets
+│       │   └── saved/                         # Saved places + 4 widgets
+│       └── shared_widgets/                    # Reusable UI components (7 widgets)
+├── screenshots/                               # App screenshots for documentation
+├── android/ ios/ web/ linux/ macos/ windows/  # Platform-specific files
+├── pubspec.yaml                               # Dependencies & configuration
+└── README.md                                  # This file
 ```
 
 ---
@@ -430,7 +458,7 @@ flutter run -d windows  # Windows
 ```
 
 ### Environment Notes
-- ✅ **No API keys required** — Uses Open-Meteo (free, no auth)
+- ✅ **No API keys required** — Open-Meteo is free and unauthenticated
 - ✅ **No backend server** — All attraction/restaurant data is hardcoded locally
 - ✅ **No database setup** — SharedPreferences handles local persistence
 - ⚠️ **Internet required** — For weather API and Unsplash CDN images
@@ -443,13 +471,13 @@ flutter run -d windows  # Windows
 
 | Screen | Description |
 |--------|-------------|
-| **🚀 Splash** | Animated logo reveal with staggered text and loading bar (3-second auto-transition) |
-| **🏠 Home** | Discovery Hub — season banner, weather insights, category filters, featured carousel, attraction grid, restaurant row, Indigenous spotlight |
-| **📍 Attraction Detail** | SliverAppBar hero, animated stats, Indigenous legends, activities, gallery, practical info, save button with particle burst |
-| **🍽️ Restaurant Detail** | Full info with signature dishes, weekly hours, action bar (directions, call, save) |
-| **🗺️ Tour** | Timeline view with smart ordering, per-stop timing, travel estimates, multi-day splitting, meal integration |
-| **💾 Saved** | Sortable list (recently added / rating / distance) with swipe-to-delete and undo |
-| **🍴 Restaurants** | Full restaurant listing with 11 category filter chips |
+| 🚀 **Splash** | Animated logo reveal with staggered text and loading bar (3-second auto-transition) |
+| 🏠 **Home** | Discovery Hub — season banner, weather insights, category filters, featured carousel, attraction grid, restaurant row, Indigenous spotlight |
+| 📍 **Attraction Detail** | SliverAppBar hero, animated stats, Indigenous legends, activities, gallery, practical info, save button with particle burst |
+| 🍽️ **Restaurant Detail** | Full info with signature dishes, weekly hours, action bar (directions, call, save) |
+| 🗺️ **Tour** | Timeline view with smart ordering, per-stop timing, travel estimates, multi-day splitting, meal integration |
+| 💾 **Saved** | Sortable list (recently added / rating / distance) with swipe-to-delete and undo |
+| 🍴 **Restaurants** | Full restaurant listing with 11 category filter chips |
 
 ### Quick Workflow
 
@@ -505,7 +533,7 @@ Algorithm: AttractionScorer
 Input:  Attraction data, current weather, current season
 Factors:
   - Category weight (outdoor vs indoor)
-  - Weather conditions (stormy/rainy/overcast/clear)
+  - Weather conditions (stormy / rainy / overcast / clear)
   - Temperature comfort range
   - Wind speed
   - Precipitation probability
@@ -550,7 +578,7 @@ Contributions are welcome! Here's how to get started:
 5. **Open** a Pull Request
 
 ### Guidelines
-- Follow existing code structure and Clean Architecture layers
+- Follow the existing Clean Architecture layers
 - Use Riverpod for state management (no `setState`)
 - Write descriptive commit messages
 - Add comments for complex logic
