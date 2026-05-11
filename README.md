@@ -177,7 +177,7 @@
 ### Smart Tour Planner
 
 <p align="center">
-  <img src="screenshots/17_tour_planner_desktop.png" alt="Tour Planner" width="780"/>
+  <img src="screenshots/17_tour_planner_desktop.png" alt="Tour Planner" width="320"/>
 </p>
 <p align="center">
   <sub>Multi-day itinerary — <b>Greedy Nearest Neighbor</b> optimized route with travel times and meal-slot suggestions</sub>
@@ -186,7 +186,7 @@
 ### Weather & Season Integration
 
 <p align="center">
-  <img src="screenshots/02_home_weather_season_desktop.png" alt="Weather & Season" width="780"/>
+  <img src="screenshots/02_home_weather_season_desktop.png" alt="Weather & Season" width="320"/>
 </p>
 <p align="center">
   <sub>Real-time weather insights · Season-aware banner · Live activity recommendations</sub>
@@ -195,7 +195,7 @@
 ### Restaurant Discovery
 
 <p align="center">
-  <img src="screenshots/13_restaurants_list_desktop.png" alt="Restaurants List" width="780"/>
+  <img src="screenshots/13_restaurants_list_desktop.png" alt="Restaurants List" width="320"/>
 </p>
 <p align="center">
   <sub>55 curated restaurants · 11 category filters · Ratings · Price indicators</sub>
@@ -204,11 +204,11 @@
 <table align="center">
   <tr>
     <td align="center" width="50%">
-      <img src="screenshots/15_restaurant_detail_desktop.png" alt="Restaurant Detail" width="380"/><br/>
+      <img src="screenshots/15_restaurant_detail_desktop.png" alt="Restaurant Detail" width="280"/><br/>
       <sub><b>Restaurant Detail</b><br/>Hours · Description · Actions</sub>
     </td>
     <td align="center" width="50%">
-      <img src="screenshots/16_restaurant_signature_dishes_desktop.png" alt="Signature Dishes" width="380"/><br/>
+      <img src="screenshots/16_restaurant_signature_dishes_desktop.png" alt="Signature Dishes" width="280"/><br/>
       <sub><b>Signature Dishes</b><br/>Curated picks with pricing</sub>
     </td>
   </tr>
@@ -219,11 +219,11 @@
 <table align="center">
   <tr>
     <td align="center" width="50%">
-      <img src="screenshots/19_saved_places_desktop.png" alt="Saved Attractions" width="380"/><br/>
+      <img src="screenshots/19_saved_places_desktop.png" alt="Saved Attractions" width="280"/><br/>
       <sub><b>Saved Attractions</b><br/>Sort options · Tour badges</sub>
     </td>
     <td align="center" width="50%">
-      <img src="screenshots/20_restaurants_filter_selected.png" alt="Saved Restaurants" width="380"/><br/>
+      <img src="screenshots/20_restaurants_filter_selected.png" alt="Saved Restaurants" width="280"/><br/>
       <sub><b>Saved Restaurants</b><br/>Sort options · Tour badges</sub>
     </td>
   </tr>
