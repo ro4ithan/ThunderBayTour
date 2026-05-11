@@ -560,14 +560,14 @@ Contributions are welcome! Here's how to get started:
 
 ## 👥 Team & Credits
 
-This project was developed as a **group project** by an **8–10 member team** at **Lakehead University**, Thunder Bay, Ontario.
+This project was developed as a group project by a 9-member team at Lakehead University, Thunder Bay, Ontario.
 
 | Role | Contributor |
-|------|------------|
-| **Lead Developer** | Rohithan |
-| **Team Members** | Lakehead University Students |
-| **Course** | Software Engineering — Lakehead University |
-| **Location** | Thunder Bay, Ontario, Canada 🇨🇦 |
+|------|-------------|
+| Instructor | Dr. Sabah Mohammed (Professor & Professional Engineer), Department of Computer Science |
+| Team Members | Rathnaraja, Rohithan (1315170) <br> Ravi, Harika (1332239) <br> Ren, Anyang (1287290) <br> Ren, Yue (1269195) <br> Sah, Shraban Kumar (1337882) <br> Sardar, Md Shepon (1329219) <br> Sayfiddinov, Kuvondik (1308773) <br> Sharma, Chiragkumar Premraj (1313032) <br> Sharma, Vaibhav (1337173) |
+| Course | (2026S) COMP-5450-SA — Mobile Programming |
+| Location | Thunder Bay, Ontario, Canada 🇨🇦 |
 
 ### Acknowledgements
 - 🪶 **Fort William First Nation** — For the Indigenous cultural stories and heritage that enrich this application
